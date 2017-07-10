@@ -8,6 +8,8 @@
 #
 # see https://www.elastic.co/guide/en/elasticsearch/reference/current/settings.html#_setting_default_settings
 
+chown elasticsearch /usr/share/elasticsearch/data
+
 declare -a es_opts
 
 while IFS='=' read -r envvar_key envvar_value
@@ -36,4 +38,4 @@ done < <(env)
 # will run in.
 export ES_JAVA_OPTS="-Des.cgroups.hierarchy.override=/ $ES_JAVA_OPTS"
 
-exec bin/elasticsearch "${es_opts[@]}"
+exec sudo -E -u elasticsearch bin/elasticsearch "${es_opts[@]}"
